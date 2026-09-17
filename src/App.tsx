@@ -5,7 +5,7 @@ import GalaxyBackground from "./GalaxyBackground";
 const CAMPUS_VIDEO =
   "https://res.cloudinary.com/fq2a6und/video/upload/v1789331510/kling_20260914_VIDEO_Start_from_924_0.mp4";
 
-const ADMIN_ID = "fikro@campushere";
+const ADMIN_ID = "admin";
 
 type Year = "Year 1" | "Year 2" | "Year 3" | "Year 4";
 

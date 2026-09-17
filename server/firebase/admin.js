@@ -1,5 +1,34 @@
+import fs from "node:fs";
+import path from "node:path";
 import admin from "firebase-admin";
 import { config } from "../config/env.js";
+
+function readLocalServiceAccount() {
+  const projectRoot = path.resolve(process.cwd());
+  const candidateFiles = [
+    "service-account-key.json",
+    "key.json",
+  ];
+
+  for (const fileName of candidateFiles) {
+    const fullPath = path.join(projectRoot, fileName);
+
+    if (!fs.existsSync(fullPath)) {
+      continue;
+    }
+
+    try {
+      return JSON.parse(fs.readFileSync(fullPath, "utf8"));
+    } catch (error) {
+      console.warn(
+        `Could not read local service account file ${fileName}.`,
+        error.message
+      );
+    }
+  }
+
+  return null;
+}
 
 function getCredential() {
   if (config.firebaseServiceAccountBase64) {
@@ -9,6 +38,12 @@ function getCredential() {
     ).toString("utf8");
 
     return admin.credential.cert(JSON.parse(decoded));
+  }
+
+  const localServiceAccount = readLocalServiceAccount();
+
+  if (localServiceAccount) {
+    return admin.credential.cert(localServiceAccount);
   }
 
   if (

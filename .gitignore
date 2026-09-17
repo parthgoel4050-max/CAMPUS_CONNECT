@@ -16,6 +16,8 @@ dist-ssr
 !.env.example
 firebase-service-account*.json
 serviceAccount*.json
+service-account-key.json
+key.json
 
 # Editor directories and files
 .vscode/*
